@@ -1,0 +1,11 @@
+pg8000==1.31.2
+SQLAlchemy==2.0.36
+cloud-sql-python-connector==1.16.0
+google-genai==1.0.0
+flask==3.1.0
+jsonify==0.5
+langchain_google_vertexai==2.0.13
+langchain_core==0.3.34
+pydantic
+langgraph
+google-cloud-pubsub

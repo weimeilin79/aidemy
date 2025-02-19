@@ -1,0 +1,207 @@
+/* General Styling */
+
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Header/Navigation */
+  nav {
+    background-color: #4285f4;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: sticky; /* Makes the nav bar sticky */
+    top: 0; /* Stick it to the top */
+    width: 100%;
+    z-index: 1; /* Ensure it's above other content */
+  }
+
+  nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+  }
+  nav a:hover {
+      background-color: #3367d6;
+  }
+  
+  nav h1 {
+    margin: 0; /* Remove default h1 margin */
+    font-size: 1.5em;
+  }
+  
+  nav ul {
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Align list items horizontally */
+  }
+  
+  nav li {
+    margin-left: 20px;
+  }
+  
+  
+  /* Main Content Area */
+  main {
+    padding: 20px;
+    max-width: 960px;
+    margin: 20px auto; /* Center the content horizontally */
+    /* Add left and right margin  */
+    margin-left: 20px; /* Adjust as needed */
+    margin-right: 50px; /* Adjust as needed */
+  }
+  
+  
+  /* Style each question and its options with a box */
+  .question-container {  /* New class to wrap each question and its options */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Space between question blocks */
+  }
+  
+  .question {
+    margin-bottom: 15px;
+  }
+  
+  .options {
+    list-style-type: upper-alpha;  /* Use A, B, C, D for options */
+    padding-left: 20px;
+  }
+  
+  .options li {
+    margin-bottom: 10px;
+  }
+
+  /* Correct answer styling */
+  .options li.correct-answer {
+    background-color: lightgreen; /* Or any other visual cue */
+    font-weight: bold;  /* Optionally make it bold */
+  }
+
+  /* Incorrectly selected answer styling */
+  .options li.incorrect-answer { /* If you want to style incorrect choices */
+    background-color: lightpink; /* Or a different color */
+    text-decoration: line-through; /* Example: strikethrough */
+  }
+  
+  /* Buttons */
+  button {
+      background-color: #4285f4; /* Google blue */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #357ae8; /* Slightly darker blue on hover */
+  }
+  
+  /* Results Section */
+  .results {
+    margin-top: 20px;
+  }
+  
+  .correct {
+    color: green;
+  }
+  
+  .incorrect {
+    color: red;
+  }
+  
+  .reasoning {
+    border: 1px solid lightgray; /* Add a light gray border */
+    padding: 10px;  
+    margin-top: 10px;
+    font-style: italic;
+  }
+  
+  
+  /* Responsive Design - Basic example */
+  @media (max-width: 768px) {
+    main {
+      padding: 10px; /* Reduce padding on smaller screens */
+    }
+  
+    nav ul {
+      flex-direction: column; /* Stack navigation links vertically */
+      align-items: flex-start; /* Align to the left */
+    }
+  
+    nav li {
+      margin: 5px 0; /* Adjust margin for vertical layout */
+    }
+  
+  }
+  
+/* General styles */
+
+
+
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.card {
+    width: 300px;
+    margin: 20px;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    overflow: hidden; 
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #4285f4;
+}
+
+.audio-player {
+    width: 100%;
+    margin-top: 10px;
+}
+
+        
+#loading-overlay { /* Styles for the loading overlay */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top of other content */
+}
+
+#loading-spinner { /* Style the spinner (you can customize this) */
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Google Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

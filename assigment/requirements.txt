@@ -1,0 +1,7 @@
+google-genai
+google-cloud-storage
+google-cloud-pubsub
+google-cloud-redis
+google-cloud-aiplatform
+functions-framework
+langgraph

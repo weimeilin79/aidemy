@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/quiz">Quizzes</a>
+        <a href="/courses">Courses</a>
+        <a href="/assignment">Assignments</a>
+         <!-- Add other links as needed -->
+    </nav>
+    <div id="loading-overlay" style="display:none;">  <!-- Initially hidden -->
+        <div id="loading-spinner"></div>
+    </div>
+    <main>
+    <h1>Quiz</h1>
+    <div id="quiz-container"></div>
+    <button onclick="checkAnswers()">Submit</button>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    
+        let quizData = [];
+
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // Show loading overlay
+        loadingOverlay.style.display = 'flex'; // Show the overlay
+
+
+        fetch('/generate_quiz')
+            .then(response => response.json())
+            .then(data => {
+                quizData = data;
+                displayQuiz(quizData);
+            })
+            .catch(error => console.error('Error fetching quiz:', error))
+            .finally(() => {
+                    loadingOverlay.style.display = 'none'; // Hide the overlay
+            });
+
+        function displayQuiz(quiz) {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = '';
+
+            quiz.forEach((questionData, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question-container');
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1}:</h3>
+                    <p class="question">${questionData.question}</p>  <!-- Access directly -->
+                    <ul class="options">
+                        ${questionData.options.map((option, optionIndex) => `
+                            <li>
+                                <input type="radio" name="q${index}" value="${String.fromCharCode(65 + optionIndex)}">
+                                ${option}
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswers() {
+            const answers = [];
+            loadingOverlay.style.display = 'flex'; // Show the overlay
+
+            quizData.forEach((_, index) => {
+                const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+                answers.push(selectedOption ? selectedOption.value : null); // Handle unselected answers
+            });
+
+            fetch('/check_answers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quiz: quizData, answers: answers }) //send quizdata
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    data.forEach((result, index) => {
+                        const questionDiv = document.querySelectorAll('#quiz-container > div')[index];
+                        const options = questionDiv.querySelectorAll('input[type="radio"]');
+                        const reasoningDiv = document.createElement('div');
+                        
+                        reasoningDiv.className = 'reasoning';
+
+                        options.forEach(option => {
+                            const label = option.parentNode; // Get the <li>
+                            if (option.value === result.correct_answer) {
+                                label.classList.add('correct-answer'); // This remains
+                            }
+                            if (option.checked && !result.is_correct) {
+                                label.classList.add('incorrect-answer');
+                            }
+                        });
+
+                        data.forEach((result, index) => {
+                            const questionDiv = document.querySelectorAll('#quiz-container > div')[index];
+                            const correctOption = questionDiv.querySelector(`input[value="${result.correct_answer}"]`);
+                            correctOption.parentNode.classList.add('correct-answer');
+                            
+                        });
+                        const reasoningHTML = marked.parse(result.reasoning);  //  <-- This is the key change
+                        reasoningDiv.innerHTML = reasoningHTML;  // Set innerHTML, not textContent
+
+                        questionDiv.appendChild(reasoningDiv);
+
+                    });
+                } else { 
+                    console.error("Error: ..."); // Handle error (same as before)
+                }
+            })
+            .catch(error => console.error('Error checking answers:', error))
+            .finally(() => {
+                    loadingOverlay.style.display = 'none'; // Hide the overlay
+            });
+        }
+        const submitButton = document.getElementById('submit-button');
+        submitButton.addEventListener('click', checkAnswers);
+    
+
+
+    </script>
+    </main>
+</body>
+</html>

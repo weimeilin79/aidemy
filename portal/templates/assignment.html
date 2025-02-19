@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assignment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa; /* Light grey background - Google background color */
+            color: #212529; /* Dark grey text - Google text color */
+        }
+
+        nav {
+            background-color: #fff; /* White navbar - Google navbar color */
+            padding: 15px 20px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.15), 0 2px 6px 2px rgba(60,64,67,.15); /* Google card shadow */
+            display: flex;
+            gap: 20px;
+            align-items: center; /* Vertically center items in nav */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #5f6368; /* Grey link color - Google secondary text color */
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px; /* Slightly rounded corners for nav links */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; /* Smooth transitions */
+        }
+
+        nav a:hover {
+            background-color: rgba(60, 64, 67, 0.08); /* Light grey hover - Google hover effect */
+            color: #202124; /* Dark grey text on hover */
+        }
+
+        main.assignment-content {
+            padding: 20px;
+            max-width: 960px; /* Max width for readability */
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.15), 0 2px 6px 2px rgba(60,64,67,.15); /* Google card shadow */
+            border-radius: 8px; /* Rounded corners for content area */
+        }
+
+        h1, h2, h3 {
+            color: #202124; /* Dark grey headings - Google primary text color */
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Main heading size */
+        }
+
+        h2 {
+            font-size: 2rem; /* Week heading size */
+            border-bottom: 1px solid #dadce0; /* Light grey border under week headings */
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.5rem; /* Part heading size */
+            margin-top: 20px;
+        }
+
+        p, li {
+            line-height: 1.6;
+            color: #3c4043; /* Slightly lighter dark grey text - Google secondary text color */
+        }
+
+        ul, ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .deliverables, .assessment-criteria {
+            margin-top: 15px;
+        }
+
+        .deliverables h4, .assessment-criteria h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #202124;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/quiz">Quizzes</a>
+        <a href="/courses">Courses</a>
+        <a href="/assignment">Assignments</a>
+    </nav>
+    <main class="assignment-content">
+        <h1>Geometry Assignment: 2D and 3D Shapes, Angles, and Coordinates</h1>
+
+        <section>
+            <h2>Week 1: 2D Shapes and Angle Explorers</h2>
+            <section>
+                <h3>Learning Objectives Assessed:</h3>
+                <ul>
+                    <li>Identifying and classifying 2D shapes.</li>
+                    <li>Understanding the properties of 2D shapes (sides, angles, symmetry).</li>
+                    <li>Identifying and classifying angles (acute, obtuse, right, straight, reflex).</li>
+                    <li>Measuring angles using a protractor.</li>
+                    <li>Drawing angles using a protractor.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Description:</h3>
+                <section>
+                    <h4>Part 1: Shape Safari (Individual)</h4>
+                    <p>Students go on a "Shape Safari" (at home, in the classroom, or using online images). They must find and photograph (or draw) at least one example of each of the following shapes: triangle, quadrilateral, pentagon, hexagon, and octagon. For each shape, they will describe its properties (number of sides, approximate angles, lines of symmetry if applicable) in a short caption accompanying the image/drawing. They should label the type of shape.</p>
+                </section>
+                <section>
+                    <h4>Part 2: Angle Architect (Individual)</h4>
+                    <p>Students will design a simple structure (e.g., a house, a bridge, a robot) using only straight lines. They must incorporate at least one example of each type of angle (acute, obtuse, right, straight, and reflex) into their design. They must then label each angle clearly on their diagram.</p>
+                </section>
+                <section>
+                    <h4>Part 3: Protractor Challenge (Pair)</h4>
+                    <p>Students work in pairs. One student draws five different angles (without labeling them) and challenges their partner to measure each angle accurately using a protractor. They then switch roles. Partners should record each other's measurements and compare their findings. Discrepancies should be discussed and resolved.</p>
+                </section>
+            </section>
+            <section class="deliverables">
+                <h3>Deliverables:</h3>
+                <ul>
+                    <li><strong>Shape Safari:</strong> A digital document (e.g., Word, Google Docs) containing the images/drawings of the shapes found and their corresponding descriptions.</li>
+                    <li><strong>Angle Architect:</strong> A hand-drawn or digitally created diagram of the designed structure with all angles clearly labeled.</li>
+                    <li><strong>Protractor Challenge:</strong> A table recording the angles drawn, the estimated angle measurement, and the protractor-measured angles for both partners, along with notes on any discrepancies and how they were resolved.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Estimated Time Commitment:</h3>
+                <p>4-5 hours. (Shape Safari: 1.5 hours, Angle Architect: 2 hours, Protractor Challenge: 0.5 - 1 hour)</p>
+            </section>
+            <section class="assessment-criteria">
+                <h3>Assessment Criteria:</h3>
+                <section>
+                    <h4>Shape Safari:</h4>
+                    <ul>
+                        <li>Accuracy in identifying and classifying shapes.</li>
+                        <li>Thoroughness and accuracy of descriptions of shape properties.</li>
+                        <li>Quality of images/drawings.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Angle Architect:</h4>
+                    <ul>
+                        <li>Inclusion of all required angle types.</li>
+                        <li>Clarity and accuracy of angle labeling.</li>
+                        <li>Creativity and neatness of the design.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Protractor Challenge:</h4>
+                    <ul>
+                        <li>Accuracy in measuring angles using a protractor.</li>
+                        <li>Evidence of collaborative problem-solving to resolve discrepancies.</li>
+                        <li>Completeness and clarity of the table.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>General:</h4>
+                    <ul>
+                        <li>Use of mathematical vocabulary.</li>
+                    </ul>
+                </section>
+            </section>
+        </section>
+
+        <section>
+            <h2>Week 2: 3D Shape Sculptors and Symmetry Masters</h2>
+            <section>
+                <h3>Learning Objectives Assessed:</h3>
+                <ul>
+                    <li>Recognizing and naming common 3D shapes (cubes, cuboids, spheres, cylinders, cones, pyramids, prisms).</li>
+                    <li>Describing the features of 3D shapes (faces, edges, vertices).</li>
+                    <li>Identifying lines of symmetry in 2D shapes.</li>
+                    <li>Completing symmetrical figures.</li>
+                    <li>Creating symmetrical patterns.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Description:</h3>
+                <section>
+                    <h4>Part 1: 3D Shape Scavenger Hunt and Description (Individual)</h4>
+                    <p>Students find real-world objects that resemble the 3D shapes listed: cubes, cuboids, spheres, cylinders, cones, pyramids, and prisms. They photograph each object and write a short description, noting its name, the number of faces, edges, and vertices (if applicable). If an object is not a perfect example of a shape, students should acknowledge and explain the difference (e.g., "This orange is *almost* a sphere, but it is slightly flattened at the poles.").</p>
+                </section>
+                <section>
+                    <h4>Part 2: Symmetry Art (Individual)</h4>
+                    <p>Students create three different symmetrical designs using the materials of their choice. One design must be created using paint and folding techniques (e.g., butterfly painting). The second design must be created by cutting or folding paper. The third design must be created using a digital art tool.</p>
+                </section>
+                <section>
+                    <h4>Part 3: Symmetry Detective (Pair)</h4>
+                    <p>Working in pairs, students will find 5 images of real world things. They will then try to create a line of symmetry, by adding it to the image. They will submit the image, and the image with the line of symmetry on it.</p>
+                </section>
+            </section>
+            <section class="deliverables">
+                <h3>Deliverables:</h3>
+                <ul>
+                    <li><strong>3D Shape Scavenger Hunt:</strong> A digital document (e.g., PowerPoint, Google Slides) containing the photos of the objects found, their names, and the descriptions of their features.</li>
+                    <li><strong>Symmetry Art:</strong> Digital photos or scans of each of the three symmetrical designs (paint, paper cutting, and digital).</li>
+                    <li><strong>Symmetry Detective:</strong> A digital document with the 5 images of real world things, and the edited versions with the lines of symmetry.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Estimated Time Commitment:</h3>
+                <p>4-5 hours (3D Scavenger Hunt: 2 hours, Symmetry Art: 2-2.5 hours, Symmetry Detective: 30 minutes - 1 hour).</p>
+            </section>
+            <section class="assessment-criteria">
+                <h3>Assessment Criteria:</h3>
+                <section>
+                    <h4>3D Shape Scavenger Hunt:</h4>
+                    <ul>
+                        <li>Accuracy in identifying 3D shapes and describing their features.</li>
+                        <li>Quality of photos.</li>
+                        <li>Insightful observations about real-world objects.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Symmetry Art:</h4>
+                    <ul>
+                        <li>Demonstrates an understanding of symmetry.</li>
+                        <li>Creativity and aesthetic appeal of the designs.</li>
+                        <li>Neatness and skill in using different mediums (paint, paper cutting, digital tools).</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Symmetry Detective:</h4>
+                    <ul>
+                        <li>Correct placement of the lines of symmetry on the images.</li>
+                        <li>Demonstration of understanding lines of symmetry.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>General:</h4>
+                    <ul>
+                        <li>Use of mathematical vocabulary.</li>
+                    </ul>
+                </section>
+            </section>
+        </section>
+
+        <section>
+            <h2>Week 3: Coordinate Crusaders and Problem-Solving Pros</h2>
+            <section>
+                <h3>Learning Objectives Assessed:</h3>
+                <ul>
+                    <li>Using coordinates in the first quadrant to describe the position of points.</li>
+                    <li>Describing movements (translations, reflections, rotations).</li>
+                    <li>Calculating the perimeter of a shape.</li>
+                    <li>Finding the area of simple shapes.</li>
+                    <li>Solving problems involving symmetry, coordinates, or transformations.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Description:</h3>
+                <section>
+                    <h4>Part 1: Coordinate Treasure Hunt (Individual)</h4>
+                    <p>Students will create a treasure map on a grid. They must:</p>
+                    <ol>
+                        <li>Draw a grid in the first quadrant (labeling x and y axes).</li>
+                        <li>Mark the location of a "treasure" (X) at specific coordinates.</li>
+                        <li>Write a set of instructions using coordinates and directional language (e.g., "Start at (1,1). Move to (3,1), then (3,4), then (5,4), then (5,3). Where are you?") that lead to the treasure. They must include at least 5 steps in their instructions.</li>
+                        <li>Share the treasure map (without revealing the final location) with a partner.</li>
+                    </ol>
+                </section>
+                <section>
+                    <h4>Part 2: Transformation Tango (Individual)</h4>
+                    <p>Students will draw a simple shape on a coordinate grid. They will then perform a series of transformations on the shape (at least three different transformations – a translation, a reflection, and a rotation). They must clearly describe each transformation (e.g., "Translate 3 units right and 2 units up," "Reflect across the y-axis," "Rotate 90 degrees clockwise about the origin"). They should draw the shape after each transformation, labelling each shape clearly (e.g., Shape 1, Shape 2, Shape 3).</p>
+                </section>
+                <section>
+                    <h4>Part 3: Perimeter & Area Challenge (Collaborative)</h4>
+                    <p>Working in groups of 3-4, students are presented with a scenario: "You are designing a new community garden. You have 40 meters of fencing. Design two different rectangular garden layouts using the entire length of the fencing. For each layout, calculate the perimeter (confirming it's 40m) and the area. Which layout gives you the largest area for growing plants?" Extend the problem to include a fraction or decimal to give an exact fence length. The length needs to be accounted for.</p>
+                </section>
+            </section>
+            <section class="deliverables">
+                <h3>Deliverables:</h3>
+                <ul>
+                    <li><strong>Coordinate Treasure Hunt:</strong> A digital or hand-drawn treasure map with the marked treasure location, the coordinate grid, and the written instructions. Include a recording of them solving another student's treasure hunt.</li>
+                    <li><strong>Transformation Tango:</strong> A digital or hand-drawn coordinate grid showing the original shape and each transformation performed, with clear descriptions of each transformation.</li>
+                    <li><strong>Perimeter & Area Challenge:</strong> A report summarizing the garden design process, including diagrams of the two garden layouts, calculations of perimeter and area for each layout, and a conclusion stating which layout provides the largest growing area, along with a clear justification.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Estimated Time Commitment:</h3>
+                <p>5-6 hours (Coordinate Treasure Hunt: 2 hours, Transformation Tango: 2 hours, Perimeter & Area Challenge: 1-2 hours).</p>
+            </section>
+            <section class="assessment-criteria">
+                <h3>Assessment Criteria:</h3>
+                <section>
+                    <h4>Coordinate Treasure Hunt:</h4>
+                    <ul>
+                        <li>Accuracy in using coordinates.</li>
+                        <li>Clarity and logical flow of instructions.</li>
+                        <li>Ability to create a challenging but solvable treasure hunt.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Transformation Tango:</h4>
+                    <ul>
+                        <li>Accuracy in performing transformations.</li>
+                        <li>Clear and precise descriptions of each transformation.</li>
+                        <li>Neatness and clarity of diagrams.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Perimeter & Area Challenge:</h4>
+                    <ul>
+                        <li>Accuracy in calculating perimeter and area.</li>
+                        <li>Application of problem-solving skills.</li>
+                        <li>Effective collaboration within the group.</li>
+                        <li>Clarity and completeness of the report.</li>
+                        <li>Correct design to a fraction.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>General:</h4>
+                    <ul>
+                        <li>Use of mathematical vocabulary.</li>
+                    </ul>
+                </section>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

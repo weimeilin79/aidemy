@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Aidemy Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f3f4; /* Google-like background color */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;  /* Center the text within the card */
+            width: 300px;
+        }
+
+        .card a {
+            display: block; /* Make the <a> tag a block element */
+            padding: 10px 15px;
+            background-color: #4285f4; /* Google blue */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .card a:hover{
+            background-color: #357ae8;
+        }
+        
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/quiz">Quizzes</a>
+        <a href="/courses">Courses</a>
+        <a href="/assignment">Assignments</a>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h2>Quizzes</h2>
+            <p>Test your knowledge with our interactive quizzes.</p>
+            <a href="/quiz">Go to Quizzes</a>
+        </div>
+
+        <div class="card">
+            <h2>Courses</h2>
+            <p>Explore our comprehensive course materials.</p>
+            <a href="/courses">Browse Courses</a>
+        </div>
+
+        <div class="card">
+            <h2>Assignments</h2>
+            <p>Complete your assignments and track your progress.</p>
+            <a href="/assignment">View Assignments</a>
+        </div>
+    </div>
+</body>
+</html>
