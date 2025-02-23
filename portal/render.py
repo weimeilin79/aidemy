@@ -8,7 +8,7 @@ from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 
 
-llm = VertexAI(model_name="gemini-2.0-flash-thinking-exp-01-21")
+llm = VertexAI(model_name="gemini-1.5-pro")
 
 
 def render_assignment_page(assignment: str):
