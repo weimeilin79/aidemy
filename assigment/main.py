@@ -30,6 +30,23 @@ class State(TypedDict):
     model_two_assignment: str
     final_assignment: str
 
+def create_assignment(teaching_plan: str):
+    print(f"create_assignment---->{teaching_plan}")
+    builder = StateGraph(State)
+    builder.add_node("gen_assignment_gemini", gen_assignment_gemini)
+    builder.add_node("gen_assignment_deepseek", gen_assignment_deepseek)
+    builder.add_node("combine_assignments", combine_assignments)
+    
+    builder.add_edge(START, "gen_assignment_gemini")
+    builder.add_edge("gen_assignment_gemini", "gen_assignment_deepseek")
+    builder.add_edge("gen_assignment_deepseek", "combine_assignments")
+    builder.add_edge("combine_assignments", END)
+
+    graph = builder.compile()
+    state = graph.invoke({"teaching_plan": teaching_plan})
+
+    return state["final_assignment"]
+
 
 @functions_framework.cloud_event
 def generate_assignment(cloud_event):
@@ -46,7 +63,7 @@ def generate_assignment(cloud_event):
 
         assignment = create_assignment(teaching_plan)
 
-        print(f"assigment---->{assignment}")
+        print(f"Assignment---->{assignment}")
 
         #Store the return assignment into bucket as a text file
         storage_client = storage.Client()
@@ -67,25 +84,3 @@ def generate_assignment(cloud_event):
 
 
 
-tools = [gen_assignment_deepseek, gen_assignment_gemini]
-def create_assignment(teaching_plan: str):
-    print(f"create_assignment---->{teaching_plan}")
-    builder = StateGraph(State)
-    builder.add_node("gen_assignment_gemini", gen_assignment_gemini)
-    builder.add_node("gen_assignment_deepseek", gen_assignment_deepseek)
-    builder.add_node("combine_assignments", combine_assignments)
-    
-    builder.add_edge(START, "gen_assignment_gemini")
-    builder.add_edge("gen_assignment_gemini", "gen_assignment_deepseek")
-    builder.add_edge("gen_assignment_deepseek", "combine_assignments")
-    builder.add_edge("combine_assignments", END)
-
-    
-
-    graph = builder.compile()
-
-    
-
-    state = graph.invoke({"teaching_plan": teaching_plan})
-
-    return state["final_assignment"]
