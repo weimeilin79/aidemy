@@ -6,15 +6,16 @@ from google.cloud import storage
 from langchain_google_vertexai import VertexAI
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
+from onramp_workaround import get_next_region
 
 
-llm = VertexAI(model_name="gemini-1.5-pro")
+
 
 
 def render_assignment_page(assignment: str):
     try:
-        
-       
+        region=get_next_region()
+        llm = VertexAI(model_name="gemini-1.5-pro", location=region)
         input_msg = HumanMessage(content=[f"Here the assignment {assignment}"])
         prompt_template = ChatPromptTemplate.from_messages(
             [
