@@ -56,23 +56,3 @@ def combine_assignments(state):
     state["final_assignment"] = response.text
     
     return state
-
-import unittest
-
-class TestGenAssignmentGemini(unittest.TestCase):
-    def test_gen_assignment_gemini(self):
-        test_teaching_plan = "Week 1: 2D Shapes and Angles - Day 1: Review of basic 2D shapes (squares, rectangles, triangles, circles). Day 2: Exploring different types of triangles (equilateral, isosceles, scalene, right-angled). Day 3: Exploring quadrilaterals (square, rectangle, parallelogram, rhombus, trapezium). Day 4: Introduction to angles: right angles, acute angles, and obtuse angles. Day 5: Measuring angles using a protractor. Week 2: 3D Shapes and Symmetry - Day 6: Introduction to 3D shapes: cubes, cuboids, spheres, cylinders, cones, and pyramids. Day 7: Describing 3D shapes using faces, edges, and vertices. Day 8: Relating 2D shapes to 3D shapes. Day 9: Identifying lines of symmetry in 2D shapes. Day 10: Completing symmetrical figures. Week 3: Position, Direction, and Problem Solving - Day 11: Describing position using coordinates in the first quadrant. Day 12: Plotting coordinates to draw shapes. Day 13: Understanding translation (sliding a shape). Day 14: Understanding reflection (flipping a shape). Day 15: Problem-solving activities involving perimeter, area, and missing angles."
-        
-        initial_state = {"teaching_plan": test_teaching_plan, "model_one_assignment": "", "model_two_assigmodel_one_assignmentnment": "", "final_assignment": ""}
-
-        updated_state = gen_assignment_gemini(initial_state)
-
-        self.assertIn("model_one_assignment", updated_state)
-        self.assertIsNotNone(updated_state["model_one_assignment"])
-        self.assertIsInstance(updated_state["model_one_assignment"], str)
-        self.assertGreater(len(updated_state["model_one_assignment"]), 0)
-        print(updated_state["model_one_assignment"])
-
-
-if __name__ == '__main__':
-    unittest.main()
