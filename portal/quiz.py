@@ -14,12 +14,9 @@ class QuizQuestion(BaseModel):
 # ENV SETUP
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")  # Get project ID from env
 
-# Connect to resourse needed from Google Cloud
-llm = VertexAI(model_name="gemini-2.0-flash-001")
 
 
-
-def generate_quiz_question(file_name: str, difficulty: str, ):
+def generate_quiz_question(file_name: str, difficulty: str, region:str ):
     """Generates a single multiple-choice quiz question using the LLM.
    
     ```json
@@ -30,6 +27,11 @@ def generate_quiz_question(file_name: str, difficulty: str, ):
     }
     ```
     """
+
+    print(f"region: {region}")
+    # Connect to resourse needed from Google Cloud
+    llm = VertexAI(model_name="gemini-1.5-pro", location=region)
+
 
     plan=None
     #load the file using file_name and read content into string call plan
@@ -54,5 +56,3 @@ def generate_quiz_question(file_name: str, difficulty: str, ):
     return  response
 
 
-
-# generate_quiz_question("teaching_plan.txt", "hard")
