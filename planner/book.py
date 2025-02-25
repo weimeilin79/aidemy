@@ -1,10 +1,10 @@
 import os
 import requests
 from langchain_google_vertexai import VertexAI
+from onramp_workaround import get_next_region
 
 
-# Connect to resourse needed from Google Cloud
-llm = VertexAI(model_name="gemini-2.0-flash-001")
+BOOK_PROVIDER_URL =  os.environ.get("BOOK_PROVIDER_URL")
 
 def recommend_book(query: str):
     """
@@ -14,6 +14,9 @@ def recommend_book(query: str):
         query: User's request string
     """
 
+    region = get_next_region();
+    llm = VertexAI(model_name="gemini-1.5-pro", location=region)
+
     query = f"""The user is trying to plan a education course, you are the teaching assistant. Help define the category of what the user requested to teach, respond the categroy with no more than two word.
 
     user request:   {query}
@@ -22,18 +25,12 @@ def recommend_book(query: str):
     response = llm.invoke(query)
     print(f"CATEGORY RESPONSE------------>: {response}")
     
-    # call this using python and parse the json back to dict -H "Content-Type: application/json" -d '{"categrory": "Science Fiction", "number_of_book": 2}' https://us-central1-named-icon-449202-s9.cloudfunctions.net/hello-world
+    # call this using python and parse the json back to dict
     category = response.strip()
-
-    url = "https://us-central1-named-icon-449202-s9.cloudfunctions.net/book-provider"
+    
     headers = {"Content-Type": "application/json"}
-    data = {"category": category, "number_of_book": 3}
-    print(f"Request Data: {data}")  # Print the exact request
-    books = requests.post(url, headers=headers, json=data)
+    data = {"category": category, "number_of_book": 2}
 
-    print(f"Response Status Code: {books.status_code}")  # Check status code
-    print(f"Response Text: {books.text}")  # Print the response body
+    books = requests.post(BOOK_PROVIDER_URL, headers=headers, json=data)
    
     return books.text
- 
-#recommand_book("I'm doing a course for my 5th grade student on Math Geometry, I'll need to recommand few books come up with a teach plan, few quizes and also a homework assignment.")
