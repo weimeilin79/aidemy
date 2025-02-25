@@ -1,18 +1,10 @@
 import os
-import vertexai
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama.llms import OllamaLLM
 from typing import TypedDict
-from google.cloud import aiplatform
 
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
-LOCATION = os.environ.get("GOOGLE_CLOUD_REGION", "us-central1")
-ENDPOINT_ID = os.environ.get("DS_ENDPOINT_ID", "") 
-PROJECT_NUMBER= os.environ.get("GOOGLE_CLOUD_PROJECT_NUMBER", "") 
-
-
-
-aiplatform.init(project=PROJECT_ID, location=LOCATION)
-endpoint = aiplatform.Endpoint(f"projects/{PROJECT_NUMBER}/locations/{LOCATION}/endpoints/{ENDPOINT_ID}")
-
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "")
 
 
 class State(TypedDict):
@@ -24,10 +16,8 @@ class State(TypedDict):
 def gen_assignment_deepseek(state):
     print(f"---------------gen_assignment_deepseek")
 
-    
-    instances=[{
-              "prompt" : f"""
-        You are an instructor 
+    template = """
+        You are an instructor who favor student to focus on individual work.
 
         Develop engaging and practical assignments for each week, ensuring they align with the teaching plan's objectives and progressively build upon each other.  
 
@@ -42,24 +32,19 @@ def gen_assignment_deepseek(state):
 
         The assignments should be a mix of individual and collaborative work where appropriate.  Consider different learning styles and provide opportunities for students to apply their knowledge creatively.
 
-        Based on this teaching plan: {state["teaching_plan"]}
-        """,
-              "max_tokens": 2000,
-              "temperature": 0.7,
-              "top_p": 1.0,
-              "top_k": -1
-    }]
-    
-
-   
-
-    prediction = endpoint.predict(instances=instances, use_dedicated_endpoint=True)
-    print(prediction.predictions[0])
-   
+        Based on this teaching plan: {teaching_plan}
+        """
 
     
-    
-    state["model_two_assignment"] = prediction.predictions[0]
+    prompt = ChatPromptTemplate.from_template(template)
+
+    model = OllamaLLM(model="deepseek-r1:1.5b",
+                   base_url=OLLAMA_HOST)
+
+    chain = prompt | model
+
+
+    response = chain.invoke({"teaching_plan":state["teaching_plan"]})
+    state["model_two_assignment"] = response
     
     return state
-
