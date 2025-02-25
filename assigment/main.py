@@ -1,6 +1,3 @@
-
-#https://cloud.google.com/functions/docs/tutorials/pubsub#functions-prepare-environment-python
-
 import os
 import json
 import base64
@@ -15,13 +12,12 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.graph import MessagesState
 from langgraph.prebuilt import ToolNode
 from langgraph.prebuilt import tools_condition
-from gemini2 import gen_assignment_gemini,combine_assignments
+from gemini import gen_assignment_gemini,combine_assignments
 from deepseek import gen_assignment_deepseek
 from typing import TypedDict
 
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
 ASSIGNMENT_BUCKET = os.environ.get("ASSIGNMENT_BUCKET","")
-
 
 
 class State(TypedDict):
@@ -46,6 +42,7 @@ def create_assignment(teaching_plan: str):
     state = graph.invoke({"teaching_plan": teaching_plan})
 
     return state["final_assignment"]
+
 
 
 @functions_framework.cloud_event
@@ -81,6 +78,3 @@ def generate_assignment(cloud_event):
     except Exception as e:
         print(f"Error generate assignment: {e}")
         return "Error generate assignment", 500
-
-
-
