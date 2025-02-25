@@ -33,12 +33,3 @@ def answer_thinking(question, options, user_response, answer, region):
         print(f"Error sending message to chatbot: {e}") # Log this error too!
         return f"Unable to process your request at this time. Due to the following reason: {str(e)}"
 
-
-
-if __name__ == "__main__":
-    question = "Evaluate the limit: lim (x→0) [(sin(5x) - 5x) / x^3]"
-    options = ["A) -125/6", "B) -5/3 ", "C) -25/3", "D) -5/6"]
-    user_response = "B"
-    answer = "A"
-    region = "us-central1"
-    result = answer_thinking(question, options, user_response, answer, region)
