@@ -7,26 +7,25 @@ import pg8000
 
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
 location = os.environ.get("GOOGLE_CLOUD_REGION", "us-central1")
+instance_name = os.environ.get("INSTANCE_NAME") 
 instance_connection_name = f"{project_id}:{location}:{instance_name}"
 print(f"--------------------------->Instance connection name: {instance_connection_name}")
 
 
+
 def connect_with_connector() -> sqlalchemy.engine.base.Engine:
-    
 
     db_user = os.environ["DB_USER"]
     db_pass = os.environ["DB_PASS"]
     db_name = os.environ["DB_NAME"]
 
     encoded_db_user = os.environ.get("DB_USER")
-    print(f"--------------------------->db_user: {db_user!r}")  # Use !r to see non-printable characters
+    print(f"--------------------------->db_user: {db_user!r}")  
     print(f"--------------------------->db_pass: {db_pass!r}") 
     print(f"--------------------------->db_name: {db_name!r}") 
 
-
     ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
 
-    # initialize Cloud SQL Python Connector object
     connector = Connector()
 
     def getconn() -> pg8000.dbapi.Connection:
@@ -40,8 +39,6 @@ def connect_with_connector() -> sqlalchemy.engine.base.Engine:
         )
         return conn
 
-    # The Cloud SQL Python Connector can be used with SQLAlchemy
-    # using the 'creator' argument to 'create_engine'
     pool = sqlalchemy.create_engine(
         "postgresql+pg8000://",
         creator=getconn,
@@ -91,4 +88,3 @@ def get_curriculum(year: int, subject: str):
 
 db = init_connection_pool()
 
-#print(get_curriculum(6, "Mathematics"))
