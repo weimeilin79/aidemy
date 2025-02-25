@@ -17,12 +17,10 @@ from google.genai.types import (
     Part,
 )
 
-MODEL_ID = "gemini-2.0-flash-001"
+MODEL_ID = "gemini-2.0-flash-exp"
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
 LOCATION = os.environ.get("GOOGLE_CLOUD_REGION", "us-central1")
 BUCKET_NAME = os.environ.get("COURSE_BUCKET_NAME", "")
-
-
 
 
 config = LiveConnectConfig(
@@ -35,7 +33,6 @@ config = LiveConnectConfig(
         )
     ),
 )
-
 
 async def process_weeks(teaching_plan: str):
     region = "us-west1" #To workaround onRamp qouta limits
