@@ -5,3 +5,4 @@ google-cloud-redis
 google-cloud-aiplatform
 functions-framework
 langgraph
+langchain_ollama
