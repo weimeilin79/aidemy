@@ -9,20 +9,17 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from onramp_workaround import get_next_region
 
 
-
-
-
 def render_assignment_page(assignment: str):
     try:
         region=get_next_region()
-        llm = VertexAI(model_name="gemini-1.5-pro", location=region)
+        llm = VertexAI(model_name="gemini-2.0-flash-001", location=region)
         input_msg = HumanMessage(content=[f"Here the assignment {assignment}"])
         prompt_template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
                     content=(
                         """
-                        As a frontend developer, create HTML to display a student assignment with a Google-like look and feel. Include the following navigation bar at the top:
+                        As a frontend developer, create HTML to display a student assignment with a creative look and feel. Include the following navigation bar at the top:
                         ```
                         <nav>
                             <a href="/">Home</a>
@@ -40,7 +37,7 @@ def render_assignment_page(assignment: str):
 
                         ```
                         Do not apply inline styles to the navigation bar. 
-                        The HTML should display the full assignment content. Use CSS to achieve the Google aesthetic. 
+                        The HTML should display the full assignment content. In its CSS, be creative with the rainbow colors and aesthetic. 
                         Make it creative and pretty
                         The assignment content should be well-structured and easy to read.
                         respond with JUST the html file
@@ -67,5 +64,3 @@ def render_assignment_page(assignment: str):
     except Exception as e:
         print(f"Error sending message to chatbot: {e}") # Log this error too!
         return f"Unable to process your request at this time. Due to the following reason: {str(e)}"
-
-
