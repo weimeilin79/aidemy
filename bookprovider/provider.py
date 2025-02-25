@@ -7,10 +7,6 @@ from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field
 import os
 
-#functions-framework --target recommended  --source provider.py
-#curl -X POST -H "Content-Type: application/json" -d '{"category": "Science Fiction", "number_of_book": 2}' http://localhost:8080/
-#curl -X POST -H "Content-Type: application/json" -d '{"category": "Science Fiction", "number_of_book": 2}' https://us-central1-named-icon-449202-s9.cloudfunctions.net/hello-world
-
 class Book(BaseModel):
     bookname: str = Field(description="Name of the book")
     author: str = Field(description="Name of the author")
