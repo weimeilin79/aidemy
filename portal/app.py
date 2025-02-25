@@ -1,18 +1,21 @@
 import os
 import json
+import time
 import base64
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
 from langchain_google_vertexai import ChatVertexAI
 from quiz import generate_quiz_question
 from answer import answer_thinking
+from onramp_workaround import get_next_region,get_next_thinking_region
 from google.cloud import storage  
 
 from render import render_assignment_page
 
 # ENV SETUP
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")  # Get project ID from env
-COURSE_BUCKET_NAME = os.environ.get("COURSE_BUCKET_NAME", "")  
+COURSE_BUCKET_NAME = os.environ.get("COURSE_BUCKET_NAME", "aidemy-course")  
+
 
 app = Flask(__name__)
 
@@ -37,19 +40,14 @@ def assignment():
 @app.route('/generate_quiz', methods=['GET'])
 def generate_quiz():
     """Generates a quiz with a specified number of questions."""
-
     #num_questions = 5  # Default number of questions
     # Can I turn this into Langgraph
     quiz = []
-    for _ in range(1):
-        quiz.append(generate_quiz_question("teaching_plan.txt", "easy"))
-    for _ in range(1):
-        quiz.append(generate_quiz_question("teaching_plan.txt", "medium"))
-    for _ in range(1):
-        quiz.append(generate_quiz_question("teaching_plan.txt", "hard"))
+    quiz.append(generate_quiz_question("teaching_plan.txt", "easy", get_next_region()))
+    quiz.append(generate_quiz_question("teaching_plan.txt", "medium", get_next_region()))
+    quiz.append(generate_quiz_question("teaching_plan.txt", "hard", get_next_region()))
 
     return jsonify(quiz)
-
 
 
 
@@ -76,17 +74,22 @@ def check_answers():
             print(f"User Answer: {user_answer}")
             print(f"Correct Answer: {correct_answer}")
 
-
-            reasoning = answer_thinking(question, options, correct_answer)
-
             is_correct = (user_answer == correct_answer)
+
+            reasoning=None
+            if(not is_correct):
+                time.sleep(60)
+                region = get_next_thinking_region()
+                reasoning = answer_thinking(question, options, user_answer, correct_answer, region)
+            else:
+                reasoning = "You are correct!"
 
             results.append({
                 "question": question,
                 "user_answer": user_answer,
                 "correct_answer": correct_answer,
                 "is_correct": is_correct,
-                "reasoning": reasoning if not is_correct else "You are correct!"
+                "reasoning": reasoning
             })
 
         return jsonify(results)
@@ -94,6 +97,7 @@ def check_answers():
     except Exception as e:
         print(f"Error checking answers: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/download_course_audio/<int:week>')
@@ -117,9 +121,12 @@ def download_course_audio(week):
 
 
 
+## Add your code here
+
 @app.route('/new_teaching_plan', methods=['POST'])
 def new_teaching_plan():
     try:
+       
         # Get data from Pub/Sub message delivered via Eventarc
         envelope = request.get_json()
         if not envelope:
@@ -129,17 +136,23 @@ def new_teaching_plan():
             return jsonify({'error': 'Invalid Pub/Sub message format'}), 400
 
         pubsub_message = envelope['message']
+        print(f"data: {pubsub_message['data']}")
 
-        data = json.loads(base64.b64decode(pubsub_message['data']).decode())
+        data = pubsub_message['data']
+        data_str = base64.b64decode(data).decode('utf-8')
+        data = json.loads(data_str)
 
-        print(f"File content: {data['teaching_plan']}")
+        teaching_plan = data['teaching_plan']
+
+        print(f"File content: {teaching_plan}")
 
         with open("teaching_plan.txt", "w") as f:
-            f.write(data['teaching_plan'])
+            f.write(teaching_plan)
 
         print(f"Teaching plan saved to local file: teaching_plan.txt")
 
         return jsonify({'message': 'File processed successfully'})
+
 
     except Exception as e:
         print(f"Error processing file: {e}")
@@ -170,7 +183,7 @@ def render_assignment():
     except Exception as e:
         print(f"Error processing file: {e}")
         return jsonify({'error': 'Error processing file'}), 500
-        
+## Add your code here
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
