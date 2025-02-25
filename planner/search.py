@@ -1,10 +1,9 @@
 import os
 from google import genai
 from google.genai.types import Tool, GenerateContentConfig, GoogleSearch
+from onramp_workaround import get_next_region
 
-project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")  # Get project ID from env
-location = "us-central1"
-client = genai.Client(vertexai=True, project=project_id, location=location)
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")  # Get project ID from env
 
 model_id = "gemini-2.0-flash-001"
 
@@ -22,7 +21,8 @@ def search_latest_resource(search_text: str, curriculum: str, subject: str, year
         year: "User's request year"  integer
     """
     search_text = "%s in the context of year %d and subject %s with following curriculum detail %s " % (search_text, year, subject, curriculum)
-
+    region = get_next_region()
+    client = genai.Client(vertexai=True, project=PROJECT_ID, location=region)
     print(f"search_latest_resource text-----> {search_text}")
     response = client.models.generate_content(
         model=model_id,
@@ -34,7 +34,3 @@ def search_latest_resource(search_text: str, curriculum: str, subject: str, year
     )
     print(f"search_latest_resource response-----> {response}")
     return response
-
-#response = search_related_resource("What are the syllabus for Year 5 Mathematics?")
-#for each in response.candidates[0].content.parts:
-#    print(each.text)
