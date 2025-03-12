@@ -35,7 +35,7 @@ config = LiveConnectConfig(
 )
 
 async def process_weeks(teaching_plan: str):
-    region = "us-west1" #To workaround onRamp qouta limits
+    region = "us-east5" #To workaround onRamp quota limits
     client = genai.Client(vertexai=True, project=PROJECT_ID, location=region)
     
     clientAudio = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1")
@@ -45,7 +45,7 @@ async def process_weeks(teaching_plan: str):
     ) as session:
         for week in range(1, 4):  
             response = client.models.generate_content(
-                model="gemini-1.0-pro",
+                model="gemini-2.0-flash-001",
                 contents=f"Given the following teaching plan: {teaching_plan}, Extrace content plan for week {week}. And return just the plan, nothingh else  " # Clarified prompt
             )
 
