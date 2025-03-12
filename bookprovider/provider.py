@@ -17,7 +17,7 @@ class Book(BaseModel):
 project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")  # Get project ID from env
 
 # Connect to resourse needed from Google Cloud
-llm = ChatVertexAI(model_name="gemini-2.0-flash-001")
+llm = ChatVertexAI(model_name="gemini-2.0-flash-lite-001")
 
 def get_recommended_books(category):
     """
