@@ -5,8 +5,8 @@ from google.cloud import aiplatform
 
 PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
 LOCATION = os.environ.get("GOOGLE_CLOUD_REGION", "us-central1")
-ENDPOINT_ID = os.environ.get("DS_ENDPOINT_ID", "") 
-PROJECT_NUMBER= os.environ.get("GOOGLE_CLOUD_PROJECT_NUMBER", "") 
+ENDPOINT_ID = os.environ.get("DS_ENDPOINT_ID", "")
+PROJECT_NUMBER = os.environ.get("GOOGLE_CLOUD_PROJECT_NUMBER", "")
 
 
 class State(TypedDict):
@@ -15,15 +15,19 @@ class State(TypedDict):
     model_two_assignment: str
     final_assignment: str
 
+
 aiplatform.init(project=PROJECT_ID, location=LOCATION)
-endpoint = aiplatform.Endpoint(f"projects/{PROJECT_NUMBER}/locations/{LOCATION}/endpoints/{ENDPOINT_ID}")
+endpoint = aiplatform.Endpoint(
+    f"projects/{PROJECT_NUMBER}/locations/{LOCATION}/endpoints/{ENDPOINT_ID}"
+)
+
 
 def gen_assignment_deepseek(state):
     print(f"---------------gen_assignment_deepseek")
 
-    
-    instances=[{
-              "prompt" : f"""
+    instances = [
+        {
+            "prompt": f"""
         You are an instructor 
 
         Develop engaging and practical assignments for each week, ensuring they align with the teaching plan's objectives and progressively build upon each other.  
@@ -41,21 +45,16 @@ def gen_assignment_deepseek(state):
 
         Based on this teaching plan: {state["teaching_plan"]}
         """,
-              "max_tokens": 2000,
-              "temperature": 0.7,
-              "top_p": 1.0,
-              "top_k": -1
-    }]
-    
-
-   
+            "max_tokens": 2000,
+            "temperature": 0.7,
+            "top_p": 1.0,
+            "top_k": -1,
+        }
+    ]
 
     prediction = endpoint.predict(instances=instances, use_dedicated_endpoint=True)
     print(prediction.predictions[0])
-   
 
-    
-    
     state["model_two_assignment"] = prediction.predictions[0]
-    
+
     return state
